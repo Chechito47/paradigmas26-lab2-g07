@@ -54,3 +54,28 @@ abstract class NamedEntity(val text: String) {
 //   )
 //   entities.foreach(e => println(e.describe))
 // =====================================================================
+
+class Person(name:String) extends NamedEntity(name){
+  def entityType: String = "Person"
+
+}
+
+class Organization(name:String) extends NamedEntity(name){
+  def entityType: String = "Organization"
+}
+
+class University(name:String) extends Organization(name){
+  override def entityType: String = "University"
+}
+
+class Place (name:String) extends NamedEntity(name){
+  def entityType: String = "Place"
+}
+
+class Technology (name:String) extends NamedEntity(name){
+  def entityType: String = "Technology"
+}
+
+class ProgrammingLanguage (name:String) extends Technology(name){
+  override def entityType = "ProgrammingLanguage"
+}
