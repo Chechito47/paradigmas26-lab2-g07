@@ -1,3 +1,4 @@
+import scala.io.Source
 // =====================================================================
 // Ejercicio 2: Cargar diccionarios de entidades
 // =====================================================================
@@ -38,9 +39,24 @@ object Dictionary {
    *
    */
   def loadFromFile(filePath: String, entityType: String): List[NamedEntity] = {
-    ???
-  }
+    val source = Source.fromFile(filePath)
+    try{
+      val list = source.getLines().drop(1).toList.map{ x => entityType match {
+        case "Person" => new Person(x)
+        case "Organization" => new Organization(x)
+        case "University" => new University(x)
+        case "Place" => new Place(x)
+        case "Technology" => new Technology(x)
+        case "ProgrammingLanguage" => new ProgrammingLanguage(x)
+        case _ => throw new Exception("entidad desconocida")}}
+        list}
 
+    finally{
+      source.close()
+    
+    }
+    
+  }
   /**
    * Carga todos los diccionarios disponibles y combina sus entidades.
    *
