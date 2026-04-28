@@ -66,6 +66,17 @@ object Dictionary {
    *
    */
   def loadAll(): List[NamedEntity] = {
-    ???
+    val archivos = List (
+      ("data/languages.txt", "ProgrammingLanguage"),
+      ("data/organizations.txt", "Organization"),
+      ("data/people.txt", "Person"),
+      ("data/places.txt", "Place"),
+      ("data/universities.txt", "University")
+    )
+    
+    archivos.flatMap{ case(x,y) =>
+      loadFromFile(x,y)
+    }
+
   }
 }
