@@ -31,7 +31,7 @@ object Formatters {
    *   Si no se detectaron entidades, mostrar un mensaje indicándolo.
    */
   def formatNERResult(postTitle: String, entities: List[NamedEntity]): String = {
-    // Armamos la primera linea con el título del post
+    // Armamos la primera linea con el titulo del post
     val titulo = s"Post: \"$postTitle\""
 
     // Caso sin entidades
