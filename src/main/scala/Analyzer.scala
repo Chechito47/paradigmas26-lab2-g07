@@ -35,7 +35,11 @@ object Analyzer {
    *                  )
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
-    ???
+    // filter conserva solo las entidades que aparecen en el texto
+    // distinct elimina duplicados por si una entidad estuviera repetida en el diccionario
+    dictionary
+      .filter(entidad => text.contains(entidad.text))
+      .distinct
   }
 
   /**
