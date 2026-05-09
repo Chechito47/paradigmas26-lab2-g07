@@ -50,18 +50,12 @@ object Formatters {
    *
    * @param counts mapa de entityType → cantidad
    * @return texto con las estadísticas ordenadas por cantidad (de mayor a menor)
-   *
-   * TODO (Ejercicio 5): Implementar este método.
-   *
-   *   Ejemplo de salida esperada:
-   *
-   *     === Estadísticas de entidades ===
-   *     Person: 5
-   *     ProgrammingLanguage: 3
-   *     Organization: 2
-   *     University: 2
    */
   def formatEntityStats(counts: Map[String, Int]): String = {
-    ???
+    val lineas = counts.toList
+      .sortBy { case (_, cantidad) => -cantidad }
+      .map { case (tipo, cantidad) => s"$tipo: $cantidad" }
+      .mkString("\n")
+    s"=== Estadísticas de entidades ===\n$lineas"
   }
 }
