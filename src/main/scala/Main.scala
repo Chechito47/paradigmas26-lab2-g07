@@ -41,5 +41,18 @@ object Main {
     //   2. Contar por tipo
     //   3. Mostrar el resumen
 
+
+    // Prints de ej 5
+    val entidadesPrueba = List(
+      new Person("Alan Turing"),
+      new ProgrammingLanguage("Scala"),
+      new Person("Ada Lovelace"),
+      new University("MIT")
+    )
+
+    val counts = Analyzer.countByType(entidadesPrueba)
+    println(counts)
+    println(Formatters.formatEntityStats(counts))
+
   }
 }
