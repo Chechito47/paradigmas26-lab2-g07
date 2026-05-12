@@ -37,8 +37,12 @@ object Analyzer {
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
     // filter conserva solo las entidades que aparecen en el texto
     // distinct elimina duplicados por si una entidad estuviera repetida en el diccionario
-    dictionary
-      .filter(entidad => text.contains(entidad.text))
+    dictionary.filter{ entidad => 
+        val escaped = java.util.regex.Pattern.quote(entidad.text.toLowerCase)
+        val regex = s"(?<![a-zA-Z0-9_])$escaped(?![a-zA-Z0-9_])".r
+
+        regex.findFirstIn(text.toLowerCase).isDefined
+      }
       .distinct
   }
 
