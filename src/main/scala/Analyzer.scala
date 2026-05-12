@@ -1,3 +1,5 @@
+import java.util.regex.Pattern
+
 // =====================================================================
 // Ejercicios 3 y 5: Detección y conteo de entidades
 // =====================================================================
@@ -35,10 +37,8 @@ object Analyzer {
    *                  )
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
-    // filter conserva solo las entidades que aparecen en el texto
-    // distinct elimina duplicados por si una entidad estuviera repetida en el diccionario
-    dictionary.filter{ entidad => 
-        val escaped = java.util.regex.Pattern.quote(entidad.text.toLowerCase)
+    dictionary.filter{ entity => 
+        val escaped = Pattern.quote(entity.text.toLowerCase)
         val regex = s"(?<![a-zA-Z0-9_])$escaped(?![a-zA-Z0-9_])".r
 
         regex.findFirstIn(text.toLowerCase).isDefined
@@ -53,6 +53,6 @@ object Analyzer {
    * @return mapa de entityType → cantidad de apariciones
    */
   def countByType(entities: List[NamedEntity]): Map[String, Int] = {
-    entities.groupBy(_.entityType).map { case (tipo, lista) => tipo -> lista.size }
+    entities.groupBy(_.entityType).map { case (eType, list) => eType -> list.size }
   }
 }

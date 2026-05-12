@@ -57,7 +57,6 @@ abstract class NamedEntity(val text: String) {
 
 class Person(name:String) extends NamedEntity(name){
   def entityType: String = "Person"
-
 }
 
 class Organization(name:String) extends NamedEntity(name){

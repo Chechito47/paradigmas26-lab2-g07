@@ -31,17 +31,13 @@ object Formatters {
    *   Si no se detectaron entidades, mostrar un mensaje indicándolo.
    */
   def formatNERResult(postTitle: String, entities: List[NamedEntity]): String = {
-    // Armamos la primera linea con el titulo del post
-    val titulo = s"Post: \"$postTitle\""
+    val title = s"Post: \"$postTitle\""
 
-    // Caso sin entidades
     if (entities.isEmpty) {
-      s"$titulo\n(sin entidades detectadas)"
+      s"$title\n(sin entidades detectadas)\n"
     } else {
-      // map convierte cada entidad en su describe: "[Person] Alan Turing"
-      // mkString las une en un solo String separadas por salto de linea
-      val listaEntidades = entities.map(e => s"  ${e.describe}").mkString("\n")
-      s"$titulo\nEntidades detectadas:\n$listaEntidades"
+      val listEntities = entities.map(e => s"  ${e.describe}").mkString("\n")
+      s"$title\nEntidades detectadas:\n$listEntities\n"
     }
   }
 
@@ -52,10 +48,10 @@ object Formatters {
    * @return texto con las estadísticas ordenadas por cantidad (de mayor a menor)
    */
   def formatEntityStats(counts: Map[String, Int]): String = {
-    val lineas = counts.toList
-      .sortBy { case (_, cantidad) => -cantidad }
-      .map { case (tipo, cantidad) => s"$tipo: $cantidad" }
+    val lines = counts.toList
+      .sortBy { case (_, total) => -total }
+      .map { case (eType, total) => s"$eType: $total" }
       .mkString("\n")
-    s"=== Estadísticas de entidades ===\n$lineas"
+    s"=== Estadísticas de entidades ===\n$lines\n"
   }
 }

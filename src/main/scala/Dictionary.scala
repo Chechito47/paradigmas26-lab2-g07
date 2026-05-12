@@ -40,7 +40,7 @@ object Dictionary {
    */
   def loadFromFile(filePath: String, entityType: String): List[NamedEntity] = {
     val source = Source.fromFile(filePath)
-    try{
+    try {
       val list = source.getLines().drop(1).toList.map{ x => entityType match {
         case "Person" => new Person(x)
         case "Organization" => new Organization(x)
@@ -49,14 +49,14 @@ object Dictionary {
         case "Technology" => new Technology(x)
         case "ProgrammingLanguage" => new ProgrammingLanguage(x)
         case _ => throw new Exception("entidad desconocida")}}
-        list}
-
-    finally{
-      source.close()
-    
+        list
     }
-    
+
+    finally {
+      source.close()
+    }
   }
+
   /**
    * Carga todos los diccionarios disponibles y combina sus entidades.
    *
@@ -66,7 +66,7 @@ object Dictionary {
    *
    */
   def loadAll(): List[NamedEntity] = {
-    val archivos = List (
+    val files = List (
       ("data/languages.txt", "ProgrammingLanguage"),
       ("data/organizations.txt", "Organization"),
       ("data/people.txt", "Person"),
@@ -74,9 +74,8 @@ object Dictionary {
       ("data/universities.txt", "University")
     )
     
-    archivos.flatMap{ case(x,y) =>
+    files.flatMap{ case(x,y) =>
       loadFromFile(x,y)
     }
-
   }
 }
