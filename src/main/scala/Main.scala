@@ -11,7 +11,7 @@ object Main {
     // TODO (Ejercicio 2)
     val dictionary: List[NamedEntity] = Dictionary.loadAll()
 
-    println(s"Diccionario cargado: ${dictionary.size} entidades.\n")
+    println(s"\nDiccionario cargado: ${dictionary.size} entidades.")
 
     // ------------------------------------------------------------------
     // Paso 2: Descargar posts
@@ -19,7 +19,6 @@ object Main {
     val subscriptions = FileIO.readSubscriptions()
 
     val allPosts: List[(String, List[String])] = subscriptions.map { url =>
-      println(s"Descargando posts de: $url")
       val json   = FileIO.downloadFeed(url)
       val titles = FileIO.extractPostTitles(json)
       (url, titles)
@@ -41,18 +40,15 @@ object Main {
     //   2. Contar por tipo
     //   3. Mostrar el resumen
 
-
-    // Prints de ej 5
-    val entidadesPrueba = List(
-      new Person("Alan Turing"),
-      new ProgrammingLanguage("Scala"),
-      new Person("Ada Lovelace"),
-      new University("MIT")
-    )
-
-    val counts = Analyzer.countByType(entidadesPrueba)
-    println(counts)
-    println(Formatters.formatEntityStats(counts))
-
+    allPosts.map { case (url, titles) => 
+      println(s"\nDescargando posts de: $url\n")
+      val allEntities = titles.flatMap { title =>
+        val entitiesDetected = Analyzer.detectEntities(title, dictionary)
+        println(Formatters.formatNERResult(title, entitiesDetected))
+        entitiesDetected
+      }
+      val countsEntities = Analyzer.countByType(allEntities)
+      println(Formatters.formatEntityStats(countsEntities))
+    }
   }
 }
