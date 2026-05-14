@@ -52,6 +52,22 @@ object Formatters {
       .sortBy { case (_, total) => -total }
       .map { case (eType, total) => s"$eType: $total" }
       .mkString("\n")
-    s"=== Estadísticas de entidades ===\n$lines\n"
+    s"=== Estadisticas de entidades ===\n$lines\n"
+  }
+
+  // Punto estrella
+  def formatHierarchyStats(counts: Map[String, Int]): String = {
+    val subtypes = Set("ProgrammingLanguage", "University")
+    val parents  = Set("Technology", "Organization")
+
+    val lines = counts.toList
+      .sortBy { case (eType, total) => (if (parents.contains(eType)) 0 else 1, -total) }
+      .map { case (eType, total) =>
+        if (subtypes.contains(eType)) s"  $eType: $total"
+        else                          s"$eType: $total"
+      }
+      .mkString("\n")
+
+    s"=== Estadisticas jerarquicas ===\n$lines\n"
   }
 }
