@@ -41,6 +41,11 @@ object Main {
       }
       val countsEntities: Map[String, Int] = Analyzer.countByType(allEntities)
       println(Formatters.formatEntityStats(countsEntities))
+
+      // Punto estrella
+      println(Formatters.formatHierarchyStats(Analyzer.countByHierarchy(allEntities)))
     }
+
+    
   }
 }
