@@ -38,10 +38,10 @@ object Analyzer {
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
     dictionary.filter{ entity => 
-        val escaped = Pattern.quote(entity.text.toLowerCase)
+        val escaped = Pattern.quote(entity.text)
         val regex = s"(?<![a-zA-Z0-9_])$escaped(?![a-zA-Z0-9_])".r
 
-        regex.findFirstIn(text.toLowerCase).isDefined
+        regex.findFirstIn(text).isDefined
       }
       .distinct
   }
@@ -54,5 +54,20 @@ object Analyzer {
    */
   def countByType(entities: List[NamedEntity]): Map[String, Int] = {
     entities.groupBy(_.entityType).map { case (eType, list) => eType -> list.size }
+  }
+
+  // Punto estrella
+  def countByHierarchy(entities: List[NamedEntity]): Map[String, Int] = {
+    val base = countByType(entities)
+    
+    val techTotal = base.getOrElse("ProgrammingLanguage", 0) + base.getOrElse("Technology", 0)
+    val orgTotal  = base.getOrElse("University", 0) + base.getOrElse("Organization", 0)
+
+    val extra = Map(
+      "Technology"   -> techTotal,
+      "Organization" -> orgTotal
+    ).filter { case (_, total) => total > 0 }
+
+    base ++ extra
   }
 }
